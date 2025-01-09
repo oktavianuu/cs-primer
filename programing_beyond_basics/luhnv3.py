@@ -6,13 +6,12 @@ def verify_imperative(digits):
     return total % 10 == 0
 
 
-def f(args):
-    i, d = args
+def f(i, d):
     x = int(d) * (1 + i % 2)
     return x // 10 + x
 
 def verify_functional(digits):
-    return sum([f(i, d) for i, d in enumerate(reversed(digits))]) % 10 == 0
+    return sum(f(i, d) for i, d in enumerate(reversed(digits))) % 10 == 0
 
 if __name__ == '__main__':
     for verify in (verify_imperative, verify_functional):
