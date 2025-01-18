@@ -28,6 +28,9 @@ functions:
         - append m to moves
     check_winner(moves) -> 0, 1 or None
         - deinterleave played move into those played by player 0 and player 1 e.g. [0, 9, 1, 2] would become [0, 1, 2] and [9, 8]
+        - treat each player's moves as sets
+        - compare the played moves to victory condition move sets, e.g. {0, 1, 2} would be a horizontal victory
+        - substracting played set from victory condition set results in an empty or non-empty set ... if empty, that player has won
     print_board(moves)
         - reformat 1 x 9 list as 3 x 3 grid, for printing
         - have default items of A to I, so that player can select which square to play
