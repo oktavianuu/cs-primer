@@ -27,6 +27,7 @@ functions:
     next_player(moves)
         -len(moves) % 2
 """
+PLAYER_SYMBOLS = ('X', 'O')
 VICTORY_CONDITIONS = (
     {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, # horizontal
     {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, # vertical
@@ -40,10 +41,32 @@ def winner(moves):
             if len(needed  - played) == 0:
                 return i
 
+def add_move(moves, m):
+    try:
+        mi = ord(m.lower()) - ord('a')
+        assert 0 <= mi < 9
+        assert mi not in moves
+    except (AttributeError, TypeError, AssertionError):
+        return False
+    moves.append(mi)
+    return True
+
+def print_board(moves):
+    board = list('abcdefghi')
+    for i, m in enumerate(moves):
+        board[m] = PLAYER_SYMBOLS[i % 2]
+    print('\n---+---+---\n'.join('|'.join(f' {c} ' for c in row) for row in (board[0:3], board[3:6], board[6:9])))
+
 if __name__ == '__main__':
     assert winner([0, 8, 1, 7, 2]) == 0
     assert winner([0, 2, 1, 5, 3, 8]) == 1
     assert winner([1]) is None
+    moves = [0, 1]
+    assert add_move(moves, 'c')
+    assert len(moves) == 3
+    assert not add_move(moves, 'c')
+    assert not add_move(moves, 'j')
+    print_board([0, 8, 1, 7, 2])
     print('ok')
 
 
