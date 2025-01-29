@@ -1,15 +1,4 @@
 """
-Option 1:
-    - Model the state as the state of the board
-    - e.g. 3x3 array of arrays with player tokens for each item
-    - New moves are entered as (x, y) coords
-    - New moves are valid if array location is empty
-    - ...how to compute victory?
-    - Printing the board is basically printing the state
-    - Maybe we also store who is the current player
-    - Would we need to be able to undo move?
-    - We wouldn't be able to reply the game? Or save partial game in a database and continue?
-
 Option 2:
     - Model the state as the sequence of moves
     - Derive the board current from the prior seq of moves
@@ -38,6 +27,23 @@ functions:
     next_player(moves)
         -len(moves) % 2
 """
+VICTORY_CONDITIONS = (
+    {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, # horizontal
+    {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, # vertical
+    {0, 4, 8}, {2, 4, 6},            # diagonal 
 
+)
+
+def winner(moves):
+    for i, played in enumerate((set(moves[::2]), set(moves[1::2]))):
+        for needed in VICTORY_CONDITIONS:
+            if len(needed  - played) == 0:
+                return i
+
+if __name__ == '__main__':
+    assert winner([0, 8, 1, 7, 2]) == 0
+    assert winner([0, 2, 1, 5, 3, 8]) == 1
+    assert winner([1]) is None
+    print('ok')
 
 
